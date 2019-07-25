@@ -1,4 +1,4 @@
-function start()
+function SaveToExcel()
 {
     var data = [{"Joukkue":"KTP-basket", "Pisteet":"2"},
     {"Joukkue":"Karhut", "Pisteet":"1"},
