@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <script lang="javascript" src="xlsx.full.min.js"></script>
+        <script lang="javascript" src="FileSaver.min.js"></script>
+
+    </head>
+
+    <body>
+        <div>
+            <input id="team1" style="padding: 1%; margin: 1%;" >
+            Vastaan
+            <input id="team2" style="padding: 1%; margin: 1%;"> <br> <br>
+            <button id="_button" onclick="doIt()" style="margin-top: 5%; margin-left: 10%">This makes an Excel file</button>
+        </div>
+
+
+        <script>
+            var wb = XLSX.utils.book_new();
+            wb.Props = {
+                Title: "SheetJS testuu",
+                Subject: "Testuuta voon",
+                Author: "asdasd",
+                CreateDate: new Date(2019, 07, 25)
+            };
+            wb.SheetNames.push("Test sheet");
+
+            var ws_data = [['KTP', 'Vastaan', 'Kouvot']];
+            console.log(ws_data);
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+            wb.Sheets["Test Sheet"] = ws;
+            
+            var wbout = XLSX.write(wb, {bookType: 'xlsx', type: 'binary'});
+
+            function s2ab(s){
+                var buf = new ArrayBuffer(s.length);
+                var view = new Uint8Array(buf);
+
+                for(var i = 0; i < s.length; i++){
+                    view[i] = s.charCodeAt(i) & 0xFF;
+                }
+
+                return buf;
+            }
+
+            function doIt(){
+                saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'test.xlsx');
+
+            }
+
+            //document.getElementById("_button").onclick( doIt() );
+
+            //$("#_button").click(function(){
+            //    saveAs(new Blcb([s2ab(wbout)], {type:"application/octet-stream"}),"testuu.xlsx");
+            //});
+
+        </script>
+
+
+    </body>
+
+</html>
