@@ -23,6 +23,15 @@ function LoadFromExcel()
         // reader.readAsDataURL(request.response);
         reader.readAsArrayBuffer(request.response);
 
+        reader.onreadystatechange = function() 
+        {
+            if(reader.readyState == 4)
+            {
+                console.log("jee");
+                PrintShit();
+            }
+        }
+
         reader.onload = function(e)
         {
             var data = new Uint8Array(reader.result);
@@ -62,9 +71,8 @@ function LoadFromExcel()
 
 function PrintShit()
 {
-    for(var i = 0; i < 5; i++)
+    for(var i = 0; i < teams.length; i++)
     {
         console.log(teams[i].name);
-        document.getElementById("eka").value = teams[0].name; 
     }
 }
