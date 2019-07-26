@@ -19,19 +19,21 @@ class Team
 
 class Ottelu
 {
-    constructor(klo, fieldi, homeT, awayT, homePoints, awayPoints)
+    constructor(klo, kentta, division, homeT, awayT, winner, loser)
     {
         this.klo = klo;
-        this.fieldi = fieldi;
+        this.kentta = kentta;
+        this.division = division;
         this.homeT = homeT;
         this.awayT = awayT;
-        this.homePoints = homePoints;
-        this.awayPoints = awayPoints;
+        this.winner = winner;
+        this.loser = loser;
     }
 }
 
 var teams = [];
 var showedTeams = [];
+var tempTeams = [];
 var winAndLoseTeams = [];
 var divisions = [];
 var ottelut = [];
@@ -55,6 +57,7 @@ function LoadFromExcel()
             var wb = XLSX.read(data,{type:'array'});
 
             let worksheet = wb.Sheets['Sarjat'];
+            let wsOttelut = wb.Sheets['Ottelut'];
             let wsKuntoMiehet = wb.Sheets['Kunto Miehet'];
             let wsFirma = wb.Sheets['Firmasarja'];
             let wsU14J = wb.Sheets['U14 Junnut'];
@@ -66,28 +69,6 @@ function LoadFromExcel()
             var divisionValue = (divisionCell ? divisionCell.v : undefined);
             divisionValue = divisionValue.substring(0, divisionValue.length - 1);      
             
-            // // Matsit Kuntomiehet
-            // for(var i = 0; i < 84; i++)
-            // {
-            //     var tempStr = 'A' + (i+6).toString();
-
-            //     var desiredCell = worksheet[tempStr[i]];
-            //     var desiredCell2 = worksheet['B' + (i+6).toString()];
-            //     var desiredCell3 = worksheet['C' + (i+6).toString()];
-            //     var desiredCell3 = worksheet['C' + (i+6).toString()];
-            //     var desiredCell3 = worksheet['C' + (i+6).toString()];
-
-            //     var desiredValue = (desiredCell ? desiredCell.v : undefined);
-            //     var desiredValue2 = (desiredCell2 ? desiredCell2.v : undefined);
-
-            //     //divisions = [worksheet['A5'], worksheet['A18']];
-            //     //divisions = ["adda", "baa"];
-            //     //console.log(divisions);
-
-            //     tempStr[i] = divisionIndex;
-            //     var ottelu = new Ottelu(desiredValue, desiredValue2, )
-            //     ottelut.push(desiredValue);
-            // }
             
             //List of divisions
             for(var i = 0; i < 5; i++)
@@ -266,9 +247,52 @@ function LoadFromExcel()
 
                 x++;
             }
-            
 
-            PrintShit();
+
+            x = 6;
+            // Ottelut
+            for(var i = 0; i < 84; i++)
+            {
+                var kloStr = 'A' + x.toString();
+                var kloCell = wsOttelut[kloStr];
+                var kloValue = (kloCell ? kloCell.v : undefined);
+
+                var kenttaStr = 'B' + x.toString();
+                var kenttaCell = wsOttelut[kenttaStr];
+                var kenttaValue = (kenttaCell ? kenttaCell.v : undefined);
+
+                var divisionStr = 'C' + x.toString();
+                var divisionCell = wsOttelut[divisionStr];
+                var divisionValue = (divisionCell ? divisionCell.v : undefined);
+
+                var homeStr = 'E' + x.toString();
+                var homeCell = wsOttelut[homeStr];
+                var homeValue = (homeCell ? homeCell.v : undefined);
+
+                var awayStr = 'G' + x.toString();
+                var awayCell = wsOttelut[awayStr];
+                var awayValue = (awayCell ? awayCell.v : undefined);
+
+                var winStr = 'H' + x.toString();
+                var winCell = wsOttelut[winStr];
+                var winValue = (winCell ? winCell.v : undefined);
+
+                var loseStr = 'I' + x.toString();
+                var loseCell = wsOttelut[loseStr];
+                var loseValue = (loseCell ? loseCell.v : undefined);
+                
+
+                //ottelut.push(new Ottelu(kloValue, kenttaValue, divisionValue, homeValue, awayValue, winValue, loseValue));
+                ottelut.push(new Ottelu(kloValue, kenttaValue, divisionValue, homeValue, awayValue, winValue, loseValue));
+
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
+                
+                x++;
+            }
+
+            //DebugPrintOttelut(ottelut);
+            //PrintShit();
 
             // var htmlstr = XLSX.write(wb,{sheet:"Sarjat", type:"binary",bookType:'html'});
             // console.log(htmlstr);
@@ -279,6 +303,42 @@ function LoadFromExcel()
     }
     
     request.send();
+}
+
+function GetTeamDivisionByName(theName)
+{
+    for(var i = 0; i < teams.length; i++)
+    {
+        if(teams[i].name == theName)
+        {
+            return teams[i].division;
+        }
+    }
+}
+
+function GetTeamByName(theName)
+{
+    for(var i = 0; i < teams.length; i++)
+    {
+        if(teams[i].name == theName)
+        {
+            return teams[i];
+        }
+    }
+}
+
+function CheckIfListContainsTeamName(a, b)
+{
+    var contains = false;
+    for(var i = 0; i < a.length; i++)
+    {
+        if(a[i].name == b)
+        {
+            contains = true;
+            i = a.length;
+        }
+    }
+    return contains;
 }
 
 function PrintShit()
@@ -316,7 +376,7 @@ function CheckTeamName(a, b)
 
 function CheckLohko(a, b)
 {
-    console.log(a.lohko);
+    //console.log(a.lohko);
     return(a.lohko == b);
 }
 
@@ -383,7 +443,7 @@ function ChangeTeam()
 
 function ChangeWinTeam(theValue)
 {
-    console.log(theValue);
+    //console.log(theValue);
     if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("winTeam").selectedIndex == 0)
     {
         document.getElementById("loseTeam").options.selectedIndex = 1;
@@ -398,7 +458,7 @@ function ChangeWinTeam(theValue)
 
 function ChangeLoseTeam(theValue)
 {
-    console.log(theValue);
+    // console.log(theValue);
     if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("loseTeam").selectedIndex == 0)
     {
         document.getElementById("winTeam").options.selectedIndex = 1;
@@ -443,6 +503,22 @@ function SaveToExcel()
     
 }
 
+function LoadPlayersToTemp(divisionName, lohkoName)
+{
+    tempTeams.length = 0;
+
+    for(var i = 0; i < teams.length; i++)
+    {
+        if(CheckTeamName(teams[i], divisionName))
+        {
+            if(CheckLohko(teams[i], lohkoName))
+            {
+                tempTeams.push(teams[i]);
+            }
+        }
+    }   
+}
+
 function LoadPlayers(whichLohkoID, divisionName, lohkoName)
 {
     showedTeams.length = 0;
@@ -458,7 +534,7 @@ function LoadPlayers(whichLohkoID, divisionName, lohkoName)
         }
     }   
 
-    DebugPrint(showedTeams);
+    //DebugPrint(showedTeams);
 
     var tempString = "";
 
@@ -481,6 +557,52 @@ function DebugPrint(arrr)
     }
 }
 
+function DebugPrintOttelut(arrr)
+{
+    for(var i = 0; i < arrr.length; i++)
+    {
+        console.log(arrr[i].homeT);
+    }
+}
+
+function LoadOttelut(whichLohkoID, divisionName, lohkoName)
+{
+    var showedOttelut = [];
+
+    for(var i = 0; i < ottelut.length; i++)
+    {
+        // If division matches and team lohko
+        if(ottelut[i].division == divisionName)
+        {
+            showedOttelut.push(ottelut[i]);
+        }
+    }
+    
+    for(var i = 0; i < showedOttelut.length; i++)
+    {
+        // If showedottelut home or away team is not in temp players list, pop
+        if(!CheckIfListContainsTeamName(tempTeams, showedOttelut[i].homeT) || !CheckIfListContainsTeamName(tempTeams, showedOttelut[i].awayT))
+        {
+            showedOttelut.splice(i, 1);
+        }
+    }
+
+    //DebugPrint(showedTeams);
+
+    $("#"+whichLohkoID).empty();
+
+    $("#"+whichLohkoID).append("<li>" + "Aika " + " " + "Kenttä" + " " 
+        + "Koti" + " " + "Vieras" + "     " + "</li>");
+    for(var i = 0; i < showedOttelut.length; i++)
+    {
+        $("#"+whichLohkoID).append("<li>" + showedOttelut[i].klo + " " + showedOttelut[i].kentta + " " 
+        + showedOttelut[i].homeT + " VS " + showedOttelut[i].awayT + "     " + "</li>");
+    }
+    
+    // var text = document.createTextNode(tempString);
+    // whereToPutText.appendChild(text);
+}
+
 $(document).ready(function(){
     LoadFromExcel();
     $("#leagueTitle").text("☻");
@@ -488,6 +610,7 @@ $(document).ready(function(){
     $('#division').change(function(){
         ChangeDivision($(this).val());
         ChangeTeam();
+        DebugPrint(ottelut);
     });
 
     $('#homeTeam').change(function(){
@@ -517,6 +640,11 @@ $(document).ready(function(){
         LoadPlayers('kuntosarjaMiehetA-lohkoJoukkueetText', divisions[0], "LOHKO A");
     })
 
+    $('#kuntosarjaMiehetA-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[0], "LOHKO A");
+        LoadOttelut('kuntosarjaMiehetA-lohkoOttelutText', divisions[0], "LOHKO A");
+    })
+
     // KuntoSarja Miehet B
     $('#kuntosarjaMiehetB-lohkoJoukkueetBtn').click(function(){
         $("#leagueTitle").text(divisions[0]);
@@ -526,6 +654,11 @@ $(document).ready(function(){
     $('#openKuntosarjaMiehetBtn').click(function(){
         $("#leagueTitle").text(divisions[0]);
         LoadPlayers('kuntosarjaMiehetB-lohkoJoukkueetText', divisions[0], "LOHKO B");
+    })
+
+    $('#kuntosarjaMiehetB-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[0], "LOHKO B");
+        LoadOttelut('kuntosarjaMiehetB-lohkoOttelutText', divisions[0], "LOHKO B");
     })
     
      // Kuntosarja Naiset
@@ -539,6 +672,11 @@ $(document).ready(function(){
         LoadPlayers('kuntosarjaNaisetA-lohkoJoukkueetText', divisions[1], "Lohko");
     })
 
+    $('#kuntosarjaNaisetA-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[1], "Lohko");
+        LoadOttelut('kuntosarjaNaisetA-lohkoOttelutText', divisions[1], "Lohko");
+    })
+
     // Firma A
     $('#firmasarjaA-lohkoJoukkueetBtn').click(function(){
         $("#leagueTitle").text(divisions[2]);
@@ -548,6 +686,11 @@ $(document).ready(function(){
     $('#openFirmasarjaBtn').click(function(){
         $("#leagueTitle").text(divisions[2]);
         LoadPlayers('firmasarjaA-lohkoJoukkueetText', divisions[2], "LOHKO A");
+    })
+
+    $('#firmasarjaA-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[2], "LOHKO A");
+        LoadOttelut('firmasarjaA-lohkoOttelutText', divisions[2], "LOHKO A");
     })
 
     // Firma B
@@ -561,6 +704,11 @@ $(document).ready(function(){
         LoadPlayers('firmasarjaB-lohkoJoukkueetText', divisions[2], "LOHKO B");
     })
 
+    $('#firmasarjaB-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[2], "LOHKO B");
+        LoadOttelut('firmasarjaB-lohkoOttelutText', divisions[2], "LOHKO B");
+    })
+
     // U14 A
     $('#u14A-lohkoJoukkueetBtn').click(function(){
         $("#leagueTitle").text(divisions[3]);
@@ -570,6 +718,11 @@ $(document).ready(function(){
     $('#openU14Btn').click(function(){
         $("#leagueTitle").text(divisions[3]);
         LoadPlayers('u14A-lohkoJoukkueetText', divisions[3], "LOHKO A");
+    })
+
+    $('#u14A-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[3], "LOHKO A");
+        LoadOttelut('u14A-lohkoOttelutText', "Junnut U14", "LOHKO A");
     })
 
     // U14 B
@@ -583,6 +736,11 @@ $(document).ready(function(){
         LoadPlayers('u14B-lohkoJoukkueetText', divisions[3], "LOHKO B");
     })
 
+    $('#u14B-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[3], "LOHKO B");
+        LoadOttelut('u14B-lohkoOttelutText', "Junnut U14", "LOHKO B");
+    })
+
     // U12
     $('#u12A-lohkoJoukkueetBtn').click(function(){
         $("#leagueTitle").text(divisions[4]);
@@ -592,5 +750,10 @@ $(document).ready(function(){
     $('#openU12Btn').click(function(){
         $("#leagueTitle").text(divisions[4]);
         LoadPlayers('u12A-lohkoJoukkueetText', divisions[4], "Lohko");
+    })
+
+    $('#u12A-lohkoOttelutBtn').click(function(){
+        LoadPlayersToTemp(divisions[2], "LOHKO B");
+        LoadOttelut('u12A-lohkoOttelutText', "Junnut U12", "Lohko");
     })
 });
