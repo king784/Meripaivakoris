@@ -1,3 +1,8 @@
+var newHomeTeam;
+var newAwayTeam;
+
+var select = document.getElementById("division");
+
 class Team
 {
     constructor(name, points, division)
@@ -54,6 +59,9 @@ function LoadFromExcel()
             // console.log(htmlstr);
             // var text = document.createTextNode(htmlstr);
             // excelTextHtml.appendChild(text);
+
+            
+
         }
     }
     
@@ -65,6 +73,7 @@ function PrintShit()
     for(var i = 0; i < 5; i++)
     {
         console.log(teams[i].name);
-        document.getElementById("eka").value = teams[0].name; 
+        newTeamName = teams[i].name;
+        document.getElementById("homeTeam").options[i] = new Option(newTeamName, "1");
     }
 }
