@@ -45,7 +45,84 @@
                                 <li class="tab"><a href="#ohjeTab">Ohje</a></li>
                             </ul>
                             <div class="card-content grey lighten-4">
-                                <div id="lisaaOtteluTab">Lisää ottelu
+                                <div id="lisaaOtteluTab">
+                                    <!--form start-->
+                                    <form>
+                                        <fieldset>
+
+                                            <input type="button" id="_button" onclick="javascript: LoadFromExcel();"
+                                                value="Hae joukkueet"></input>
+
+                                            <p id="ExcelText"></p>
+
+                                            <p>Sarja</p>
+                                            <div class="input-field col s12">
+                                                <select id=division name="division">
+                                                    <option value="1">asd</option>
+                                                    <option value="2">a</option>
+                                                    <option value="3">jotain</option>
+                                                    <option value="4">asd</option>
+                                                    <option value="5">sdasd</option>
+                                                </select>
+                                            </div>
+
+                                            <p>Kotijoukkue</p>
+                                            <div class="input-field col s12">
+                                                <select id=homeTeam name="homeTeam">
+                                                    <option value="1"></option>
+                                                    <option value="2"></option>
+                                                    <option value="3"></option>
+                                                    <option value="4"></option>
+                                                    <option value="5"></option>
+                                                </select>
+                                            </div>
+
+                                            <p>Vierasjoukkue </p>
+                                            <div class="input-field col s12">
+                                                <select id=awayTeam name="awayTeam">
+                                                    <option value="1"></option>
+                                                    <option value="2"></option>
+                                                    <option value="3"></option>
+                                                    <option value="4"></option>
+                                                    <option value="5"></option>
+                                                </select>
+                                            </div>
+                                            <fieldset>
+                                                <p>Aloitus aika: </p>
+                                                <input type="time" name="startTime">
+
+                                                <p>Lopetus aika: </p>
+                                                <input type="time" name="endTime">
+                                            </fieldset>
+
+                                            <p>Voittanut joukkue</p>
+                                            <div class="input-field col s12">
+                                                <select id=winTeam name="winningTeam">
+                                                    <option value="asd">asd</option>
+                                                    <option value="asd">asd</option>
+                                                    <option value="asd">asdasd</option>
+                                                    <option value="asd">asd</option>
+                                                    <option value="asd">asawdawadwwd</option>
+                                                </select>
+                                            </div>
+
+                                            <p>Hävinnyt joukkue</p>
+                                            <div class="input-field col s12">
+                                                <select id=loseTeam name="losingTeam">
+                                                    <option value="asd">asd</option>
+                                                    <option value="asd">asd</option>
+                                                    <option value="asd">asdasd</option>
+                                                    <option value="asd">asd</option>
+                                                    <option value="asd">asawdawadwwd</option>
+                                                </select>
+                                            </div>
+
+                                            <input type="button" id="_button" onclick="javascript: SaveToExcel();"
+                                                value="Tallenna"></input>
+
+                                        </fieldset>
+                                    </form>
+                                    <!--forn end-->
                                 </div>
                                 <div id="ohjeTab">Ohjeita</div>
                             </div>
@@ -63,13 +140,20 @@
         </div>
     </footer>
     <!--jquery includes for tabs-->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.tabs').tabs();
+            $('select').formSelect();        
         });
     </script>
+    <!--js for form-->
+    <script lang="javascript" src="xlsx.full.min.js"></script>
+    <script lang="javascript" src="FileSaver.min.js"></script>
+    <script lang="javascript" src="JS/GetGameInfo.js"></script>
+    <!--<script lang="javascript" src="JS/LoadExcel.js"></script>-->
+    <script lang="javascript" src="JS/RikunJS.js"></script>
 </body>
 
 </html>
