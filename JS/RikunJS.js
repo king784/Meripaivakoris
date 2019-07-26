@@ -17,6 +17,7 @@ class Team
 }
 
 var teams = [];
+var showedTeams = [];
 var divisions = [];
 
 function LoadFromExcel()
@@ -44,7 +45,8 @@ function LoadFromExcel()
             x = 6;
             var divisionCell = worksheet['A5'];
 
-            var divisionValue = (divisionCell ? divisionCell.v : undefined);      
+            var divisionValue = (divisionCell ? divisionCell.v : undefined);
+            divisionValue = divisionValue.substring(0, divisionValue.length - 1);      
             
             
             //List of divisions
@@ -107,6 +109,77 @@ function LoadFromExcel()
                 x++;
             }
 
+            // Kuntosarja Naiset:
+            x = 19;
+            for(var i = 0; i < 4; i++)
+            {
+                var tempStr = 'A' + x.toString();
+                var desiredCell = worksheet[tempStr];
+                var desiredValue = (desiredCell ? desiredCell.v : undefined);
+                
+                teams.push(new Team(desiredValue, 0, divisions[1]));
+                
+                var text = document.createTextNode(desiredValue);
+                excelTextHtml.appendChild(text);
+
+
+                x++;
+            }
+
+            // Firmasarja:
+            x = 25;
+            for(var i = 0; i < 6; i++)
+            {
+                var tempStr = 'A' + x.toString();
+                var desiredCell = worksheet[tempStr];
+                var desiredValue = (desiredCell ? desiredCell.v : undefined);
+                
+                teams.push(new Team(desiredValue, 0, divisions[2]));
+                
+                var text = document.createTextNode(desiredValue);
+                excelTextHtml.appendChild(text);
+
+
+                x++;
+            }
+
+            // U14:
+            x = 6;
+            for(var i = 0; i < 11; i++)
+            {
+                var tempStr = 'C' + x.toString();
+                var desiredCell = worksheet[tempStr];
+                var desiredValue = (desiredCell ? desiredCell.v : undefined);
+                
+                teams.push(new Team(desiredValue, 0, divisions[3]));
+                
+                var text = document.createTextNode(desiredValue);
+                excelTextHtml.appendChild(text);
+
+
+                x++;
+            }
+
+            // U12:
+            x = 19;
+            for(var i = 0; i < 5; i++)
+            {
+                var tempStr = 'C' + x.toString();
+                var desiredCell = worksheet[tempStr];
+                var desiredValue = (desiredCell ? desiredCell.v : undefined);
+                
+                teams.push(new Team(desiredValue, 0, divisions[4]));
+                
+                var text = document.createTextNode(desiredValue);
+                excelTextHtml.appendChild(text);
+
+
+                x++;
+            }
+            
+
+            PrintShit();
+
             // var htmlstr = XLSX.write(wb,{sheet:"Sarjat", type:"binary",bookType:'html'});
             // console.log(htmlstr);
             // var text = document.createTextNode(htmlstr);
@@ -122,24 +195,73 @@ function PrintShit()
 {    
     for(var i = 0; i < 5; i++)
     {
-        console.log(divisions[i]);
+        // console.log(divisions[i]);
         newDivisionName = divisions[i];
-        document.getElementById("division").options[i] = new Option(newDivisionName, "1");
+        document.getElementById("division").options[i] = new Option(newDivisionName, newDivisionName); //(i+1).toString());
     }
     for(var i = 0; i < 5; i++)
     {
-        console.log(teams[i].name);
+        // console.log(teams[i].name);
         newTeamName = teams[i].name;
-        document.getElementById("homeTeam").options[i] = new Option(newTeamName, "1");
+        document.getElementById("homeTeam").options[i] = new Option(newTeamName, newTeamName); //(i+1).toString());
     }
     var j = 0;
     for(var i = 5; i < 10; i++)
     {
-        console.log(teams[i].name);
+        // console.log(teams[i].name);
         newAwayName = teams[i].name;
-        document.getElementById("awayTeam").options[j] = new Option(newAwayName, "1");
+        document.getElementById("awayTeam").options[j] = new Option(newAwayName, newAwayName);// (i+1).toString());
         j++;
     }
-
-
 }
+
+function CheckTeamName(a, b)
+{
+    console.log(a.division + "|" + b);
+    return (a.division == b);
+}
+
+function RemoveOptions(selectbox)
+{
+    var i;
+    for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+    {
+        selectbox.remove(i);
+    }
+}
+
+function ChangeDivision(condition)
+{
+    showedTeams.length = 0;
+
+    for(var i = 0; i < teams.length; i++)
+    {
+        if(CheckTeamName(teams[i], condition))
+        {
+            showedTeams.push(teams[i]);
+        }
+    }
+
+    RemoveOptions(document.getElementById("homeTeam"));
+    RemoveOptions(document.getElementById("awayTeam"));
+
+    for(var i = 0; i < showedTeams.length; i++)
+    {
+        // console.log(teams[i].name);
+        newTeamName = showedTeams[i].name;
+        document.getElementById("homeTeam").options[i] = new Option(newTeamName, newTeamName); //(i+1).toString());
+    }
+    for(var i = 0; i < showedTeams.length; i++)
+    {
+        // console.log(teams[i].name);
+        newAwayName = showedTeams[i].name;
+        document.getElementById("awayTeam").options[i] = new Option(newAwayName, newAwayName);// (i+1).toString());
+    }
+}
+
+
+$(document).ready(function(){
+    $('#division').change(function(){
+        ChangeDivision($(this).val());
+    });
+});
