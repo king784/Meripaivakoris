@@ -37,8 +37,6 @@ function LoadFromExcel()
 
         reader.onload = function(e)
         {
-
-
             var data = new Uint8Array(reader.result);
             var wb = XLSX.read(data,{type:'array'});
 
@@ -234,7 +232,7 @@ function LoadFromExcel()
             }
             
 
-            //PrintShit();
+            PrintShit();
 
             // var htmlstr = XLSX.write(wb,{sheet:"Sarjat", type:"binary",bookType:'html'});
             // console.log(htmlstr);
@@ -255,6 +253,7 @@ function PrintShit()
         newDivisionName = divisions[i];
         document.getElementById("division").options[i] = new Option(newDivisionName, newDivisionName); //(i+1).toString());
     }
+    $('#division').formSelect();
     for(var i = 0; i < 5; i++)
     {
         // console.log(teams[i].name);
@@ -321,7 +320,9 @@ function ChangeDivision(condition)
         newAwayName = showedTeams[i].name;
         document.getElementById("awayTeam").options[i] = new Option(newAwayName, newAwayName);// (i+1).toString());
     }
+    $('#homeTeam').formSelect();
     document.getElementById("awayTeam").selectedIndex = 1;
+    $('#awayTeam').formSelect();
 }
 
 function ChangeTeam()
@@ -337,6 +338,9 @@ function ChangeTeam()
     document.getElementById("loseTeam").options[1] = new Option($('#awayTeam').val(), $('#awayTeam').val());
     document.getElementById("loseTeam").selectedIndex = 1;
 
+    $('#winTeam').formSelect();
+    $('#loseTeam').formSelect();
+
     winAndLoseTeams.push($('#homeTeam').val());
     winAndLoseTeams.push($('#awayTeam').val());
 }
@@ -347,10 +351,12 @@ function ChangeWinTeam(theValue)
     if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("winTeam").selectedIndex == 0)
     {
         document.getElementById("loseTeam").options.selectedIndex = 1;
+        $('#loseTeam').formSelect();
     }
     else if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("winTeam").selectedIndex == 1)
     {
         document.getElementById("loseTeam").options.selectedIndex = 0;
+        $('#loseTeam').formSelect();
     }
 }
 
@@ -360,10 +366,12 @@ function ChangeLoseTeam(theValue)
     if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("loseTeam").selectedIndex == 0)
     {
         document.getElementById("winTeam").options.selectedIndex = 1;
+        $('#winTeam').formSelect();
     }
     else if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("loseTeam").selectedIndex == 1)
     {
         document.getElementById("winTeam").options.selectedIndex = 0;
+        $('#winTeam').formSelect();
     }
 }
 
