@@ -1,3 +1,8 @@
+var newHomeTeam;
+var newAwayTeam;
+
+var select = document.getElementById("division");
+
 class Team
 {
     constructor(name, points, division)
@@ -22,15 +27,6 @@ function LoadFromExcel()
         var reader = new FileReader();
         // reader.readAsDataURL(request.response);
         reader.readAsArrayBuffer(request.response);
-
-        reader.onreadystatechange = function() 
-        {
-            if(reader.readyState == 4)
-            {
-                console.log("jee");
-                PrintShit();
-            }
-        }
 
         reader.onload = function(e)
         {
@@ -63,6 +59,9 @@ function LoadFromExcel()
             // console.log(htmlstr);
             // var text = document.createTextNode(htmlstr);
             // excelTextHtml.appendChild(text);
+
+            
+
         }
     }
     
@@ -71,8 +70,10 @@ function LoadFromExcel()
 
 function PrintShit()
 {
-    for(var i = 0; i < teams.length; i++)
+    for(var i = 0; i < 5; i++)
     {
         console.log(teams[i].name);
+        newTeamName = teams[i].name;
+        document.getElementById("homeTeam").options[i] = new Option(newTeamName, "1");
     }
 }
