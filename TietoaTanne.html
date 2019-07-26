@@ -2,6 +2,7 @@
 <html>
     <head>
             <meta charset="UTF-8">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script lang="javascript" src="xlsx.full.min.js"></script>
             <script lang="javascript" src="FileSaver.min.js"></script>
             <script lang="javascript" src="JS/GetGameInfo.js"></script>
@@ -12,8 +13,7 @@
 
     <body>
 
-        <button id="_button" onclick="javascript: LoadFromExcel();">Browse</button>
-        <button id="_button" onclick="javascript: PrintShit();">Print</button>
+        <button id="_button" onclick="javascript: LoadFromExcel();">Lataa joukkueet</button>
 
         <p id="ExcelText"></p>
 
@@ -54,7 +54,7 @@
         </p>
 
         <p style="font-family: sans-serif; font-size: 18;">Voittanut joukkue
-                <select style="font-family: sans-serif; font-size: 18">
+                <select id=winTeam style="font-family: sans-serif; font-size: 18">
                     <option value="asd">asd</option>
                     <option value="asd">asd</option>
                     <option value="asd">asdasd</option>
@@ -63,7 +63,7 @@
                 </select>
             </p>
             <p style="font-family: sans-serif; font-size: 18;margin-top: 2%;">Hävinnyt joukkue
-                <select style="font-family: sans-serif; font-size: 18">
+                <select id=loseTeam style="font-family: sans-serif; font-size: 18">
                     <option value="asd">asd</option>
                     <option value="asd">asd</option>
                     <option value="asd">asdasd</option>
@@ -71,6 +71,8 @@
                     <option value="asd">asawdawadwwd</option>
                 </select>
             </p>
+
+            <button id="_button" onclick="javascript: SaveToExcel();">Tallenna</button>
 
     </body>
 </html>
