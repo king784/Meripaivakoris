@@ -25,201 +25,51 @@
             <figure>
                 <h1>Meripäiväkoris</h1>
                 <figcaption>
-                    <p>Täällä voit hallinoida turnauksen tietoja</p>
+                    <p>Täällä pystyt päivittämään turnauksen otteluita</p>
                 </figcaption>
             </figure>
         </header>
     </div>
-    <nav class="nav-extended">
-        <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
-                <li><a id="openKuntosarjaMiehetBtn" class="waves-effect waves-light btn-large">Kuntosarja miehet</a>
-                </li>
-                <li><a id="openKuntosarjaNaisetBtn" class="waves-effect waves-light btn-large">Kuntosarja naiset</a>
-                </li>
-                <li><a id="openFirmasarjaBtn" class="waves-effect waves-light btn-large">Firmasarja</a></li>
-                <li><a id="openU14Btn" class="waves-effect waves-light btn-large">U14</a></li>
-                <li><a id="openU12Btn" class="waves-effect waves-light btn-large">U12</a></li>
-            </ul>
-        </div>
-        <div class="nav-content">
-            <span class="nav-title" id="leagueTitle">Title</span>
-        </div>
-    </nav>
     <main>
         <div id="pageContentContainer">
 
-            <div id="miestenKuntosarjaSisalto" class="LeagueContainer">
-                <!-- <h2>Miesten kuntosarja</h2> -->
-                <div id="miestenKuntosarja_A-lohko">
-
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">A-lohko</span>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Lisää ottelu</span>
+                        </div>
+                        <div class="card-tabs">
+                            <ul class="tabs tabs-fixed-width">
+                                <li class="tab"><a href="#lisaaOtteluTab">Ottelun lisääminen</a></li>
+                                <li class="tab"><a href="#ohjeTab">Ohje</a></li>
+                            </ul>
+                            <div class="card-content grey lighten-4">
+                                <div id="lisaaOtteluTab">Lisää ottelu
                                 </div>
-                                <div class="card-tabs">
-                                    <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a class="active" href="#kuntosarjaMiehet_A-lohko_Joukkueet">Joukkueet</a></li>
-                                        <li class="tab"><a href="#kuntosarjaMiehet_A-lohko_Ottelut">Ottelut</a></li>
-                                    </ul>
-                                    <div class="card-content grey lighten-4">
-                                        <div id="kuntosarjaMiehet_A-lohko_Joukkueet">
-                                            <div class="addTeamButtonAndText">
-                                                <a id="openFirmasarjaBtn" class="waves-effect waves-light btn-large">Lisää joukkue +</a>
-                                            </div>
-                                        </div>
-                                        <div id="kuntosarjaMiehet_A-lohko_Ottelut">Ottelut</div>
-                                    </div>
-                                </div>
+                                <div id="ohjeTab">Ohjeita</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div id="miestenKuntosarja_B-lohko">
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">B-lohko</span>
-                                </div>
-                                <div class="card-tabs">
-                                    <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a class="active" href="#kuntosarjaMiehet_B-lohko_Joukkueet">Joukkueet</a></li>
-                                        <li class="tab"><a href="#kuntosarjaMiehet_B-lohko_Ottelut">Ottelut</a></li>
-                                    </ul>
-                                    <div class="card-content grey lighten-4">
-                                        <div id="kuntosarjaMiehet_B-lohko_Joukkueet">Joukkueet</div>
-                                        <div id="kuntosarjaMiehet_B-lohko_Ottelut">Ottelut</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <div id="naistenKuntosarjaSisalto" class="LeagueContainer">
-                <!-- <h2>Miesten kuntosarja</h2> -->
-                <div id="naistenKuntosarja_A-lohko">
-
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">A-lohko</span>
-                                </div>
-                                <div class="card-tabs">
-                                    <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a class="active" href="#kuntosarjaNaiset_A-lohko_Joukkueet">Joukkueet</a></li>
-                                        <li class="tab"><a class="active" href="#kuntosarjaNaiset_A-lohko_Ottelut">Ottelut</a></li>
-                                    </ul>
-                                    <div class="card-content grey lighten-4">
-                                        <div id="kuntosarjaNaiset_A-lohko_Joukkueet">Joukkueet</div>
-                                        <div id="kuntosarjaNaiset_A-lohko_Ottelut">Ottelut</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="firmasarjaSisalto" class="LeagueContainer">
-                <!-- <h2>Miesten kuntosarja</h2> -->
-                <div id="firmasarja_A-lohko">
-
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">A-lohko</span>
-                                </div>
-                                <div class="card-tabs">
-                                    <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a class="active" href="#firmasarja_A-lohko_Joukkueet">Joukkueet</a></li>
-                                        <li class="tab"><a class="active" href="#firmasarja_A-lohko_Ottelut">Ottelut</a></li>
-                                    </ul>
-                                    <div class="card-content grey lighten-4">
-                                        <div id="firmasarja_A-lohko_Joukkueet">Joukkueet</div>
-                                        <div id="firmasarja_A-lohko_Ottelut">Ottelut</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="u14aSisalto" class="LeagueContainer">
-                <!-- <h2>Miesten kuntosarja</h2> -->
-                <div id="u14_A-lohko">
-
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">A-lohko</span>
-                                </div>
-                                <div class="card-tabs">
-                                    <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a class="active" href="#u14_A-lohko_Joukkueet">Joukkueet</a></li>
-                                        <li class="tab"><a class="active" href="#u14_A-lohko_Ottelut">Ottelut</a></li>
-                                    </ul>
-                                    <div class="card-content grey lighten-4">
-                                        <div id="u14_A-lohko_Joukkueet">Joukkueet</div>
-                                        <div id="u14_A-lohko_Ottelut">Ottelut</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="u12Sisalto" class="LeagueContainer">
-                <!-- <h2>Miesten kuntosarja</h2> -->
-                <div id="u12_A-lohko">
-
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">A-lohko</span>
-                                </div>
-                                <div class="card-tabs">
-                                    <ul class="tabs tabs-fixed-width">
-                                        <li class="tab"><a href="#u12_A-lohko_Joukkueet">Joukkueet</a></li>
-                                        <li class="tab"><a href="#u12_A-lohko_Ottelut">Ottelut</a></li>
-                                    </ul>
-                                    <div class="card-content grey lighten-4">
-                                        <div id="u12_A-lohko_Joukkueet">Joukkueet</div>
-                                        <div id="u12_A-lohko_Ottelut">Ottelut</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
+        <!--page containber end-->
     </main>
     <footer>
         <div id="bottomBar">
 
         </div>
     </footer>
-    <!--card tabs javascript-->
+    <!--jquery includes for tabs-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="AdminMenuManager.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.tabs').tabs();
+        });
+    </script>
 </body>
 
 </html>
