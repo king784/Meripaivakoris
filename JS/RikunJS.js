@@ -8,11 +8,12 @@ var x;
 
 class Team
 {
-    constructor(name, points, division)
+    constructor(name, points, division, lohko)
     {
         this.name = name;
         this.points = points;
         this.division = division;
+        this.lohko = lohko;
     }
 }
 
@@ -23,7 +24,7 @@ var divisions = [];
 
 function LoadFromExcel()
 {
-    var excelTextHtml = document.getElementById("ExcelText");
+    //var excelTextHtml = document.getElementById("ExcelText");
     
     var request = new XMLHttpRequest();
     request.open('GET', "Meripaivakoris2019uus.xlsx", true);
@@ -42,8 +43,12 @@ function LoadFromExcel()
             var wb = XLSX.read(data,{type:'array'});
 
             let worksheet = wb.Sheets['Sarjat'];
+            let wsKuntoMiehet = wb.Sheets['Kunto Miehet'];
+            let wsFirma = wb.Sheets['Firmasarja'];
+            let wsU14J = wb.Sheets['U14 Junnut'];
+            let wsU12J = wb.Sheets['U12 Junnut'];
 
-            x = 6;
+            x = 5;
             var divisionCell = worksheet['A5'];
 
             var divisionValue = (divisionCell ? divisionCell.v : undefined);
@@ -67,8 +72,8 @@ function LoadFromExcel()
                 
                 divisions.push(desiredValue);
                 
-                var text = document.createTextNode(desiredValue);
-                excelTextHtml.appendChild(text);
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
                 
                 
                 //x++;
@@ -80,13 +85,16 @@ function LoadFromExcel()
             {
                 var tempStr = 'A' + x.toString();
 
-                var desiredCell = worksheet[tempStr];
+                var desiredCell = wsKuntoMiehet[tempStr];
                 var desiredValue = (desiredCell ? desiredCell.v : undefined);
                 
-                teams.push(new Team(desiredValue, 0, divisionValue));
+                var lohkoCell = wsKuntoMiehet['A4'];
+                var lohkoValue = (lohkoCell ? lohkoCell.v : undefined);
+
+                teams.push(new Team(desiredValue, 0, divisionValue, lohkoValue));
                 
-                var text = document.createTextNode(desiredValue);
-                excelTextHtml.appendChild(text);
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
                 
                 
                 x++;
@@ -94,17 +102,20 @@ function LoadFromExcel()
             
             
             //List of away team
-            //x = 11;
+            x = 5;
             for(var i = 0; i < 5; i++)
             {
-                var tempStr = 'A' + x.toString();
-                var desiredCell = worksheet[tempStr];
+                var tempStr = 'N' + x.toString();
+                var desiredCell = wsKuntoMiehet[tempStr];
                 var desiredValue = (desiredCell ? desiredCell.v : undefined);
                 
-                teams.push(new Team(desiredValue, 0, divisionValue));
+                var lohkoCell = wsKuntoMiehet['N4'];
+                var lohkoValue = (lohkoCell ? lohkoCell.v : undefined);
+
+                teams.push(new Team(desiredValue, 0, divisionValue, lohkoValue));
                 
-                var text = document.createTextNode(desiredValue);
-                excelTextHtml.appendChild(text);
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
 
 
                 x++;
@@ -118,68 +129,112 @@ function LoadFromExcel()
                 var desiredCell = worksheet[tempStr];
                 var desiredValue = (desiredCell ? desiredCell.v : undefined);
                 
-                teams.push(new Team(desiredValue, 0, divisions[1]));
+                teams.push(new Team(desiredValue, 0, divisions[1], "Lohko"));
                 
-                var text = document.createTextNode(desiredValue);
-                excelTextHtml.appendChild(text);
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
 
 
                 x++;
             }
 
             // Firmasarja:
-            x = 25;
-            for(var i = 0; i < 6; i++)
+            x = 5;
+            for(var i = 0; i < 3; i++)
             {
                 var tempStr = 'A' + x.toString();
-                var desiredCell = worksheet[tempStr];
+                var desiredCell = wsFirma[tempStr];
                 var desiredValue = (desiredCell ? desiredCell.v : undefined);
                 
-                teams.push(new Team(desiredValue, 0, divisions[2]));
+                var lohkoCell = wsFirma['A4'];
+                var lohkoValue = (lohkoCell ? lohkoCell.v : undefined);
+
+                teams.push(new Team(desiredValue, 0, divisions[2], lohkoValue));
                 
-                var text = document.createTextNode(desiredValue);
-                excelTextHtml.appendChild(text);
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
+
+
+                x++;
+            }
+
+            x = 5;
+            for(var i = 0; i < 3; i++)
+            {
+                var tempStr = 'N' + x.toString();
+                var desiredCell = wsFirma[tempStr];
+                var desiredValue = (desiredCell ? desiredCell.v : undefined);
+                
+                var lohkoCell = wsFirma['N4'];
+                var lohkoValue = (lohkoCell ? lohkoCell.v : undefined);
+
+                teams.push(new Team(desiredValue, 0, divisions[2], lohkoValue));
+                
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
 
 
                 x++;
             }
 
             // U14:
-            x = 6;
-            for(var i = 0; i < 11; i++)
+            x = 5;
+            for(var i = 0; i < 5; i++)
             {
-                var tempStr = 'C' + x.toString();
-                var desiredCell = worksheet[tempStr];
+                var tempStr = 'A' + x.toString();
+                var desiredCell = wsU14J[tempStr];
                 var desiredValue = (desiredCell ? desiredCell.v : undefined);
                 
-                teams.push(new Team(desiredValue, 0, divisions[3]));
+                var lohkoCell = wsU14J['A4'];
+                var lohkoValue = (lohkoCell ? lohkoCell.v : undefined);
+
+                teams.push(new Team(desiredValue, 0, divisions[3], lohkoValue));
                 
-                var text = document.createTextNode(desiredValue);
-                excelTextHtml.appendChild(text);
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
+
+
+                x++;
+            }
+
+            x = 5;
+            for(var i = 0; i < 5; i++)
+            {
+                var tempStr = 'N' + x.toString();
+                var desiredCell = wsU14J[tempStr];
+                var desiredValue = (desiredCell ? desiredCell.v : undefined);
+                
+                var lohkoCell = wsU14J['N4'];
+                var lohkoValue = (lohkoCell ? lohkoCell.v : undefined);
+
+                teams.push(new Team(desiredValue, 0, divisions[3], lohkoValue));
+                
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
 
 
                 x++;
             }
 
             // U12:
-            x = 19;
+            x = 5;
             for(var i = 0; i < 5; i++)
             {
-                var tempStr = 'C' + x.toString();
-                var desiredCell = worksheet[tempStr];
+                var tempStr = 'A' + x.toString();
+                var desiredCell = wsU12J[tempStr];
                 var desiredValue = (desiredCell ? desiredCell.v : undefined);
                 
-                teams.push(new Team(desiredValue, 0, divisions[4]));
+                teams.push(new Team(desiredValue, 0, divisions[4], "Lohko"));
                 
-                var text = document.createTextNode(desiredValue);
-                excelTextHtml.appendChild(text);
+                // var text = document.createTextNode(desiredValue);
+                // excelTextHtml.appendChild(text);
 
 
                 x++;
             }
             
 
-            PrintShit();
+            //PrintShit();
 
             // var htmlstr = XLSX.write(wb,{sheet:"Sarjat", type:"binary",bookType:'html'});
             // console.log(htmlstr);
@@ -220,8 +275,14 @@ function PrintShit()
 
 function CheckTeamName(a, b)
 {
-    console.log(a.division + "|" + b);
+    // console.log(a.division + "|" + b);
     return (a.division == b);
+}
+
+function CheckLohko(a, b)
+{
+    console.log(a.lohko);
+    return(a.lohko == b);
 }
 
 function RemoveOptions(selectbox)
@@ -338,8 +399,48 @@ function SaveToExcel()
     
 }
 
+function LoadPlayers(whichLohkoID, divisionName, lohkoName)
+{
+    showedTeams.length = 0;
+
+    for(var i = 0; i < teams.length; i++)
+    {
+        if(CheckTeamName(teams[i], divisionName))
+        {
+            if(CheckLohko(teams[i], lohkoName))
+            {
+                showedTeams.push(teams[i]);
+            }
+        }
+    }   
+
+    DebugPrint(showedTeams);
+
+    var tempString = "";
+
+    $("#"+whichLohkoID).empty();
+
+    for(var i = 0; i < showedTeams.length; i++)
+    {
+        $("#"+whichLohkoID).append("<li>" + showedTeams[i].name + "</li>");
+    }
+    
+    // var text = document.createTextNode(tempString);
+    // whereToPutText.appendChild(text);
+}
+
+function DebugPrint(arrr)
+{
+    for(var i = 0; i < arrr.length; i++)
+    {
+        console.log(arrr[i].name);
+    }
+}
 
 $(document).ready(function(){
+    LoadFromExcel();
+    $("#leagueTitle").text("☻");
+
     $('#division').change(function(){
         ChangeDivision($(this).val());
         ChangeTeam();
@@ -361,5 +462,91 @@ $(document).ready(function(){
         ChangeLoseTeam($(this).val());
     });
 
+    // Kuntosarja Miehet A
+    $('#kuntosarjaMiehetA-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[0]);
+        LoadPlayers('kuntosarjaMiehetA-lohkoJoukkueetText', divisions[0], "LOHKO A");
+    })
+
+    $('#openKuntosarjaMiehetBtn').click(function(){
+        $("#leagueTitle").text(divisions[0]);
+        LoadPlayers('kuntosarjaMiehetA-lohkoJoukkueetText', divisions[0], "LOHKO A");
+    })
+
+    // KuntoSarja Miehet B
+    $('#kuntosarjaMiehetB-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[0]);
+        LoadPlayers('kuntosarjaMiehetB-lohkoJoukkueetText', divisions[0], "LOHKO B");
+    })
+
+    $('#openKuntosarjaMiehetBtn').click(function(){
+        $("#leagueTitle").text(divisions[0]);
+        LoadPlayers('kuntosarjaMiehetB-lohkoJoukkueetText', divisions[0], "LOHKO B");
+    })
     
+     // Kuntosarja Naiset
+     $('#kuntosarjaNaisetA-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[1]);
+        LoadPlayers('kuntosarjaNaisetA-lohkoJoukkueetText', divisions[1], "Lohko");
+    })
+
+    $('#openKuntosarjaNaisetBtn').click(function(){
+        $("#leagueTitle").text(divisions[1]);
+        LoadPlayers('kuntosarjaNaisetA-lohkoJoukkueetText', divisions[1], "Lohko");
+    })
+
+    // Firma A
+    $('#firmasarjaA-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[2]);
+        LoadPlayers('firmasarjaA-lohkoJoukkueetText', divisions[2], "LOHKO A");
+    })
+
+    $('#openFirmasarjaBtn').click(function(){
+        $("#leagueTitle").text(divisions[2]);
+        LoadPlayers('firmasarjaA-lohkoJoukkueetText', divisions[2], "LOHKO A");
+    })
+
+    // Firma B
+    $('#firmasarjaB-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[2]);
+        LoadPlayers('firmasarjaB-lohkoJoukkueetText', divisions[2], "LOHKO B");
+    })
+
+    $('#openFirmasarjaBtn').click(function(){
+        $("#leagueTitle").text(divisions[2]);
+        LoadPlayers('firmasarjaB-lohkoJoukkueetText', divisions[2], "LOHKO B");
+    })
+
+    // U14 A
+    $('#u14A-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[3]);
+        LoadPlayers('u14A-lohkoJoukkueetText', divisions[3], "LOHKO A");
+    })
+
+    $('#openU14Btn').click(function(){
+        $("#leagueTitle").text(divisions[3]);
+        LoadPlayers('u14A-lohkoJoukkueetText', divisions[3], "LOHKO A");
+    })
+
+    // U14 B
+    $('#u14B-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[3]);
+        LoadPlayers('u14B-lohkoJoukkueetText', divisions[3], "LOHKO B");
+    })
+
+    $('#openU14Btn').click(function(){
+        $("#leagueTitle").text(divisions[3]);
+        LoadPlayers('u14B-lohkoJoukkueetText', divisions[3], "LOHKO B");
+    })
+
+    // U12
+    $('#u12A-lohkoJoukkueetBtn').click(function(){
+        $("#leagueTitle").text(divisions[4]);
+        LoadPlayers('u12A-lohkoJoukkueetText', divisions[4], "Lohko");
+    })
+
+    $('#openU12Btn').click(function(){
+        $("#leagueTitle").text(divisions[4]);
+        LoadPlayers('u12A-lohkoJoukkueetText', divisions[4], "Lohko");
+    })
 });
