@@ -17,10 +17,24 @@ class Team
     }
 }
 
+class Ottelu
+{
+    constructor(klo, fieldi, homeT, awayT, homePoints, awayPoints)
+    {
+        this.klo = klo;
+        this.fieldi = fieldi;
+        this.homeT = homeT;
+        this.awayT = awayT;
+        this.homePoints = homePoints;
+        this.awayPoints = awayPoints;
+    }
+}
+
 var teams = [];
 var showedTeams = [];
 var winAndLoseTeams = [];
 var divisions = [];
+var ottelut = [];
 
 function LoadFromExcel()
 {
@@ -52,6 +66,28 @@ function LoadFromExcel()
             var divisionValue = (divisionCell ? divisionCell.v : undefined);
             divisionValue = divisionValue.substring(0, divisionValue.length - 1);      
             
+            // // Matsit Kuntomiehet
+            // for(var i = 0; i < 84; i++)
+            // {
+            //     var tempStr = 'A' + (i+6).toString();
+
+            //     var desiredCell = worksheet[tempStr[i]];
+            //     var desiredCell2 = worksheet['B' + (i+6).toString()];
+            //     var desiredCell3 = worksheet['C' + (i+6).toString()];
+            //     var desiredCell3 = worksheet['C' + (i+6).toString()];
+            //     var desiredCell3 = worksheet['C' + (i+6).toString()];
+
+            //     var desiredValue = (desiredCell ? desiredCell.v : undefined);
+            //     var desiredValue2 = (desiredCell2 ? desiredCell2.v : undefined);
+
+            //     //divisions = [worksheet['A5'], worksheet['A18']];
+            //     //divisions = ["adda", "baa"];
+            //     //console.log(divisions);
+
+            //     tempStr[i] = divisionIndex;
+            //     var ottelu = new Ottelu(desiredValue, desiredValue2, )
+            //     ottelut.push(desiredValue);
+            // }
             
             //List of divisions
             for(var i = 0; i < 5; i++)
