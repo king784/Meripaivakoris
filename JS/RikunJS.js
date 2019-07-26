@@ -18,6 +18,7 @@ class Team
 
 var teams = [];
 var showedTeams = [];
+var winAndLoseTeams = [];
 var divisions = [];
 
 function LoadFromExcel()
@@ -213,6 +214,8 @@ function PrintShit()
         document.getElementById("awayTeam").options[j] = new Option(newAwayName, newAwayName);// (i+1).toString());
         j++;
     }
+
+    ChangeTeam();
 }
 
 function CheckTeamName(a, b)
@@ -257,11 +260,106 @@ function ChangeDivision(condition)
         newAwayName = showedTeams[i].name;
         document.getElementById("awayTeam").options[i] = new Option(newAwayName, newAwayName);// (i+1).toString());
     }
+    document.getElementById("awayTeam").selectedIndex = 1;
+}
+
+function ChangeTeam()
+{
+    winAndLoseTeams = [];
+    RemoveOptions(document.getElementById("winTeam"));
+    RemoveOptions(document.getElementById("loseTeam"));
+
+    document.getElementById("winTeam").options[0] = new Option($('#homeTeam').val(), $('#homeTeam').val());
+    document.getElementById("winTeam").options[1] = new Option($('#awayTeam').val(), $('#awayTeam').val());
+
+    document.getElementById("loseTeam").options[0] = new Option($('#homeTeam').val(), $('#homeTeam').val());
+    document.getElementById("loseTeam").options[1] = new Option($('#awayTeam').val(), $('#awayTeam').val());
+    document.getElementById("loseTeam").selectedIndex = 1;
+
+    winAndLoseTeams.push($('#homeTeam').val());
+    winAndLoseTeams.push($('#awayTeam').val());
+}
+
+function ChangeWinTeam(theValue)
+{
+    console.log(theValue);
+    if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("winTeam").selectedIndex == 0)
+    {
+        document.getElementById("loseTeam").options.selectedIndex = 1;
+    }
+    else if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("winTeam").selectedIndex == 1)
+    {
+        document.getElementById("loseTeam").options.selectedIndex = 0;
+    }
+}
+
+function ChangeLoseTeam(theValue)
+{
+    console.log(theValue);
+    if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("loseTeam").selectedIndex == 0)
+    {
+        document.getElementById("winTeam").options.selectedIndex = 1;
+    }
+    else if((document.getElementById("winTeam").selectedIndex == document.getElementById("loseTeam").selectedIndex) && document.getElementById("loseTeam").selectedIndex == 1)
+    {
+        document.getElementById("winTeam").options.selectedIndex = 0;
+    }
+}
+
+function SaveToExcel()
+{
+    //jsonString = JSON.stringify(jsonString, ['name', 'points', 'division']);
+
+    // var data = [{"Joukkue":"KTP-basket", "Pisteet":"2"},
+    // {"Joukkue":"Karhut", "Pisteet":"1"},
+    // {"Joukkue":"Kakka", "Pisteet":"69"}
+    // ];
+
+    // var tieto = [{"Joukkue":}]
+
+    if(typeof XLSX == 'undefined')
+    {
+        XLSX = require('xlsx');
+    }
+
+    var jsonString = [];
+
+    for(var i = 0; i < teams.length; i++)
+    {
+        jsonString.push({"name": teams[i].name.toString(), "points": teams[i].points.toString(), "division": teams[i].division.toString()});
+    }
+
+    var ws = XLSX.utils.json_to_sheet(jsonString);
+
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Matsit");
+
+    XLSX.writeFile(wb, "Uh.xlsx");
+    
 }
 
 
 $(document).ready(function(){
     $('#division').change(function(){
         ChangeDivision($(this).val());
+        ChangeTeam();
     });
+
+    $('#homeTeam').change(function(){
+        ChangeTeam();
+    });
+
+    $('#awayTeam').change(function(){
+        ChangeTeam();
+    });
+
+    $('#winTeam').change(function(){
+        ChangeWinTeam($(this).val());
+    });
+
+    $('#loseTeam').change(function(){
+        ChangeLoseTeam($(this).val());
+    });
+
+    
 });
